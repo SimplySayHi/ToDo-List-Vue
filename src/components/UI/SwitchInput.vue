@@ -1,0 +1,101 @@
+<template>
+    <div class="switch-wrapper">
+        <div class="switch-label">{{ label }}</div>
+        <label class="switch">
+            <input 
+                type="checkbox" 
+                class="switch-input"
+                :checked="value"
+                @change="updatePriority($event.target.checked)"
+            />
+            <div class="switch-slider"></div>
+        </label>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['value', 'label'],
+    methods: {
+        updatePriority(priority){
+            this.$emit('input', priority);
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+.switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+.switch-label {
+    margin-right: 10px;
+    font-size: 12px;
+
+    @media (min-width: 992px) {
+        margin-right: 20px;
+    }
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+    flex-shrink: 0;
+    
+    &-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $blue-3;
+        transition: all 0.15s linear;
+        border-radius: 34px;
+
+        &:before {
+            position: absolute;
+            content: '';
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 3px;
+            background-color: #425277;
+            transition: all 0.15s linear;
+            border-radius: 50%;
+        }
+    }
+    &-input {
+        display:none;
+
+        &:checked {
+            + .switch-slider {
+                background-color: $blue-3;
+
+                &:before {
+                    transform: translateX(26px);
+                    background-color: $blue-light-4;
+                }
+            }
+        }
+    }
+    &:hover {
+        .switch-input {
+            + .switch-slider {
+                background-color: $blue-2;
+            }
+            &:checked {
+                + .switch-slider {
+                    background-color: $blue-2;
+
+                    &:before {
+                        background-color: #959ca3;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>
